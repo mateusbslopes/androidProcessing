@@ -1,59 +1,56 @@
 float zRotation = 0;
+float zInitialRotationSpeed = 0.03;
+float zRotationSpeed = zInitialRotationSpeed;
+
 float yRotation = 0;
+float yInitialRotationSpeed = 0.01;
+float yRotationSpeed = yInitialRotationSpeed;
+
 float boxMaxSize = 0;
 float boxDefaultMaxSize = 0;
 
 void setup() {
-  size(1000, 500, P3D);
+  fullScreen(P3D);
   boxDefaultMaxSize = height/2; 
   boxMaxSize = boxDefaultMaxSize;
 }
 
 void draw() {
-  background(255);
+  background(100);
   noFill();
-  translate(width/2, height/2);
+  strokeWeight(5);
   
+  translate(width/2, height/2);
   rotateZ(zRotation);
   rotateY(yRotation);
   
-  box(getBoxSize());
+  box(250);
   
-  zRotation += getZRotationSpeed();
-  yRotation += getYRotationSpeed();
+  zRotation += zRotationSpeed;
+  yRotation += yRotationSpeed;
 }
 
-float getYRotationSpeed(){
-  float maxDist = height;
-  float d = abs(height/2 - mouseY);
-  float rotation = map(d, 0, maxDist, 0, 1);
-  return rotation;
+void resetSpeed(){
+  zRotationSpeed = zInitialRotationSpeed;
+  yRotationSpeed = yInitialRotationSpeed; 
 }
 
-float getZRotationSpeed(){
-  float maxDist = width;
-  float d = abs(width/2 - mouseX);
-  float rotation = map(d, 0, maxDist, 0, 1);
-  return rotation;
+void increaseSpeed(){
+  zRotationSpeed += .01;
+  yRotationSpeed += 0.005;
 }
 
-float getBoxSize(){
-  float maxDist = dist(0, 0, width/2, height/2);
-  float d = dist(width/2, height/2, mouseX, mouseY);
-  float size = map(d, 0, maxDist, 0, boxMaxSize);
-  return boxMaxSize - size;
+void reduceSpeed(){
+  zRotationSpeed -= .01;
+  yRotationSpeed -= 0.005;
 }
 
-int pressedKey = 0;
-
-void keyPressed() {
-  if (key != CODED) return;
-  
-  switch(keyCode){
-    case UP: boxMaxSize += 10; break;
-    case DOWN: boxMaxSize -= 10; break;
-    case LEFT: boxMaxSize -= 1; break;
-    case RIGHT: boxMaxSize -= 1; break;
-    case CONTROL: boxMaxSize = boxDefaultMaxSize;
-  }
+void mousePressed() {
+  if (mouseY > height/2) 
+    resetSpeed();
+  else 
+    if(mouseX > width/2)
+      increaseSpeed();
+    else 
+      reduceSpeed();
 }
