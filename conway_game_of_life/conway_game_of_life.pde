@@ -6,32 +6,28 @@
 
 int x;
 int y;
-int resolution = 50;
+int resolution = 20;
 
 // For better performance on count living neighbours.
 int[][] pxs;
 
 void setup() {
-  size(500, 500);
+  fullScreen();
   pxs = new int[width/resolution][height/resolution];
   frameRate(5);
-  pxs[0][3] = 1;
-  pxs[1][2] = 1;
-  pxs[1][1] = 1;
+  background(255);
 }
 
 void draw(){
-  background(255);  
   for(x = 0; x < pxs.length; x++){
     for(y = 0; y < pxs[0].length; y++){
-      
       if(pxs[x][y] == 0) fill(255);
       else fill(0);
-     
       rect(x * resolution, y * resolution, resolution,resolution);
       setValue(x, y);
     }
-  }  
+  }
+  delay(10000);
 }
 
 void setValue(int x, int y){
@@ -45,24 +41,45 @@ void setValue(int x, int y){
 
 int countLivingNeighbours(int x, int y){
   int amount = 0;
-  // Optimize later
-  // Left to right top to botton
-  if(x > 0 && y > 0) amount += pxs[x - 1][y - 1];
-  if(y > 0) amount += pxs[x][y - 1];
-  if(y > 0 && x < pxs.length - 1) amount += pxs[x + 1][y -1];
+  
+  if(y > 0){
+    amount += pxs[x][y - 1];
+    if(x > 0) amount += pxs[x - 1][y - 1];
+    if(x < pxs.length - 1) amount += pxs[x + 1][y -1];
+  } 
 
   if(x > 0) amount += pxs[x - 1][y];
   if(x < pxs.length - 1) amount += pxs[x + 1][y];
   
-  if(x > 0 && y < pxs[0].length - 1) amount += pxs[x - 1][y + 1];
-  if(y < pxs[0].length - 1) amount += pxs[x][y + 1];
-  if(x < pxs.length - 1 && y < pxs[0].length - 1) amount += pxs[x + 1][y + 1];  
+  if(y < pxs[0].length - 1){
+    amount += pxs[x][y + 1];
+    if(x > 0) amount += pxs[x - 1][y + 1];
+    if(x < pxs.length - 1) amount += pxs[x + 1][y + 1];
+  }
   return amount;
 }
 
-void mouseClicked(){
-  int x_index = floor(map(mouseX, 0, width, 0, pxs.length - 1));
-  int y_index = floor(map(mouseY, 0, height, 0, pxs[0].length - 1));
-  pxs[x_index][y_index] = 1;
+void mousePressed(){
+  int x_index = round(map(mouseX, 0, width, 0, pxs.length - 1));
+  int y_index = round(map(mouseY, 0, height, 0, pxs[0].length - 1));
+  
+  if(x_index < width / 4 && y_index < height / 4){
+    reset();
+  }
+  drawGlider(x_index, y_index);
+}
+
+void reset(){
+  for(x = 0; x < pxs.length; x++){
+    for(y = 0; y < pxs[0].length; y++){
+      pxs[x][y] = 0;
+    }
+  }
+}
+
+void setLived(int x, int y){
+  if(x > 0 && x < pxs.length 
+    && y > 0 && y < pxs[0].length)
+    pxs[x][y] = 1;
 }
   
