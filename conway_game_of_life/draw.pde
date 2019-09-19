@@ -4,40 +4,69 @@ void setAlive(int x, int y){
     pxs[x][y] = 1;
 }
 
-void drawBlock(int x, int y){
-   setAlive(x - 1, y - 1);
-   setAlive(x, y - 1);
-   setAlive(x - 1, y);
-   setAlive(x, y);
+// @todo Draw mirrowed
+void setInvertedMirroedAlive(int x, int y, int ingored){
+    if(x >= 0 && x < pxs.length 
+    && y >= 0 && y < pxs[0].length)    
+    pxs[y][x] = 1;
 }
 
-void drawCanoe(int x, int y){
-  setAlive(x + 1, y - 2);
-  setAlive(x + 2, y - 2);
-  setAlive(x + 2, y - 1);
-  setAlive(x + 1, y);
-  setAlive(x, y + 1);
-  setAlive(x - 1, y + 2);
-  setAlive(x - 2, y + 2);
-  setAlive(x - 2, y + 1);
+void drawGun(int x, int y, boolean portrait){
+  if(portrait) drawPortraitGun(x, y);  
+  else drawLandscapeGun(x, y);
 }
 
-void drawLine(int x, int y){
-  setAlive(x, y - 1);
-  setAlive(x, y);
-  setAlive(x, y + 1);
+void drawPortraitGun(int x, int y){  
+  setInvertedMirroedAlive(x - 15, y - 1, y);
+  setInvertedMirroedAlive(x - 14, y - 1, y);
+  setInvertedMirroedAlive(x - 15, y, y);
+  setInvertedMirroedAlive(x - 14, y, y);
+  
+  // Left/Center object
+  // "C" part
+  setInvertedMirroedAlive(x - 2, y - 3, y);
+  setInvertedMirroedAlive(x - 3, y - 3, y);
+  setInvertedMirroedAlive(x - 4, y - 2, y);
+  setInvertedMirroedAlive(x - 5, y - 1, y);
+  setInvertedMirroedAlive(x - 5, y, y);
+  setInvertedMirroedAlive(x - 5, y + 1, y);
+  setInvertedMirroedAlive(x - 4, y + 2, y);
+  setInvertedMirroedAlive(x - 3, y + 3, y);
+  setInvertedMirroedAlive(x - 2, y + 3, y);
+  // Bow and arrow part
+  setInvertedMirroedAlive(x - 1, y, y);
+  setInvertedMirroedAlive(x, y + 2, y);
+  setInvertedMirroedAlive(x + 1, y + 1, y);
+  setInvertedMirroedAlive(x + 1, y, y);
+  setInvertedMirroedAlive(x + 2, y, y);
+  setInvertedMirroedAlive(x + 1, y - 1, y);
+  setInvertedMirroedAlive(x, y - 2, y);
+  
+  // Napping Frog
+  // Body
+  setInvertedMirroedAlive(x + 5, y - 3, y);
+  setInvertedMirroedAlive(x + 6, y - 3, y);
+  setInvertedMirroedAlive(x + 5, y - 2, y);
+  setInvertedMirroedAlive(x + 6, y - 2, y);
+  setInvertedMirroedAlive(x + 5, y - 1, y);
+  setInvertedMirroedAlive(x + 6, y - 1, y);
+  // Legs 
+  setInvertedMirroedAlive(x + 7, y - 4, y);
+  setInvertedMirroedAlive(x + 7, y, y);
+  setInvertedMirroedAlive(x + 9, y - 4, y);
+  setInvertedMirroedAlive(x + 9, y - 5, y);
+  setInvertedMirroedAlive(x + 9, y, y);
+  setInvertedMirroedAlive(x + 9, y + 1, y);
+  
+  // Right square
+  setInvertedMirroedAlive(x + 19, y - 3, y);
+  setInvertedMirroedAlive(x + 20, y - 3, y);
+  setInvertedMirroedAlive(x + 19, y - 2, y);
+  setInvertedMirroedAlive(x + 20, y - 2, y);
 }
 
-void drawGlider(int x, int y){
-  setAlive(x - 1, y);
-  setAlive(x + 1, y - 1);
-  setAlive(x + 1, y);
-  setAlive(x + 1, y + 1);
-  setAlive(x, y + 1);
-}
-
-void drawGun(int x, int y){
-    // Left box
+void drawLandscapeGun(int x, int y){
+  // Left box
   setAlive(x - 15, y - 1);
   setAlive(x - 14, y - 1);
   setAlive(x - 15, y);

@@ -11,17 +11,45 @@ int[][] pxs;
 
 void setup() {
   size(500, 500);
-  frameRate(10);
+  frameRate(5);
   background(0);
   
   pxs = new int[width/resolution][height/resolution];
-  drawGun(20,10);
+  resetScreen();
 }
-  
+
 void draw(){
   drawValues();
   setValues();
 }
+
+ 
+void resetScreen(){
+  resetPxs();
+  //drawGun(40, 20, true);
+  
+  drawCloverLeaf(5, 10);
+  
+  
+  if(true) return;
+  int i;
+  for(i = 1; i < 7; i++){
+    drawPentaDecathlon(i * 20, 200);
+    drawPentaDecathlon(i * 20, 230);
+  } 
+  
+  drawHeavySpaceship(10, 175);
+  drawHeavySpaceship(10, 215);
+  drawHeavySpaceship(10, 255);
+}
+
+void resetPxs(){
+  for(int y = 0; y < pxs[0].length; y++)
+      for(int x = 0; x < pxs.length; x++)
+        pxs[x][y] = 0;
+}
+
+  
 
 void drawValues(){
   int x, y;
@@ -60,7 +88,7 @@ void myCopy(int[][] src, int[][]dest){
 void setValue(int[][] oldVector, int[][]newVector, int x, int y){
   // Living neighbours
   int ln = countLivingNeighbours(oldVector, x, y);
-  if(oldVector[x][y] == 1 && (ln < 2 || ln > 3)) //<>//
+  if(oldVector[x][y] == 1 && (ln < 2 || ln > 3)) //<>// //<>// //<>// //<>// //<>// //<>//
     newVector[x][y] = 0;
   if(oldVector[x][y] == 0 && ln == 3)
     newVector[x][y] = 1;
@@ -78,7 +106,7 @@ int countLivingNeighbours(int[][] oldVector, int x, int y){
   if(x > 0) amount += oldVector[x - 1][y];
   if(x < oldVector.length - 1) amount += oldVector[x + 1][y];
   
-  if(y < oldVector[0].length - 1){
+  if(y < oldVector[0].length - 1){  
     amount += oldVector[x][y + 1];
     if(x > 0) amount += oldVector[x - 1][y + 1];
     if(x < oldVector.length - 1) amount += oldVector[x + 1][y + 1];
@@ -87,8 +115,11 @@ int countLivingNeighbours(int[][] oldVector, int x, int y){
   return amount;
 }
 
-void mouseClicked(){
+void mousePressed(){
   int x = round(map(mouseX, 0, width, 0, pxs.length - 1));
   int y = round(map(mouseY, 0, height, 0, pxs[0].length - 1));
-  drawGlider(x,y);
+  if(mouseX < width / 8 && mouseY < height / 8)
+    resetScreen();
+  else 
+    drawGlider(x,y);
 }
