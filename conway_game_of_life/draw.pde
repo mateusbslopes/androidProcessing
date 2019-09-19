@@ -1,3 +1,16 @@
+void setLived(int x, int y){
+  if(x >= 0 && x < pxs.length 
+    && y >= 0 && y < pxs[0].length)
+    pxs[x][y] = 1;
+}
+
+void drawBlock(int x, int y){
+   setLived(x - 1, y - 1);
+   setLived(x, y - 1);
+   setLived(x - 1, y);
+   setLived(x, y);
+}
+
 void drawCanoe(int x, int y){
   setLived(x + 1, y - 2);
   setLived(x + 2, y - 2);
@@ -9,6 +22,12 @@ void drawCanoe(int x, int y){
   setLived(x - 2, y + 1);
 }
 
+void drawLine(int x, int y){
+  setLived(x, y - 1);
+  setLived(x, y);
+  setLived(x, y + 1);
+}
+
 void drawGlider(int x, int y){
   setLived(x - 1, y);
   setLived(x + 1, y - 1);
@@ -17,7 +36,6 @@ void drawGlider(int x, int y){
   setLived(x, y + 1);
 }
 
-// See issue on gun structure.
 void drawGun(int x, int y){
     // Left box
   setLived(x - 15, y - 1);
