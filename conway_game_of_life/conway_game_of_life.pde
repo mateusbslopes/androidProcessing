@@ -5,7 +5,7 @@
 // 4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
 void setup() {
-  size(500, 500);
+  fullScreen();
   frameRate(20);
   background(0);
   resolution = 5;

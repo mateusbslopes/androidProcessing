@@ -17,5 +17,5 @@ int getAlives(){
 void writeInfo(){
   textFont(f,20);
   fill(255);
-  text("Alives: " + getAlives(), width/8, 100);
+  text("Alives: " + getAlives(), width/8, 40);
 }  
