@@ -1,13 +1,15 @@
 float zRotation = 0;
-float zInitialRotationSpeed = 0.03;
+float zInitialRotationSpeed = 0.003;
 float zRotationSpeed = zInitialRotationSpeed;
 
 float yRotation = 0;
-float yInitialRotationSpeed = 0.01;
+float yInitialRotationSpeed = 0.001;
 float yRotationSpeed = yInitialRotationSpeed;
 
 float boxMaxSize = 0;
 float boxDefaultMaxSize = 0;
+
+boolean reducingSpeed = false;
 
 void setup() {
   fullScreen(P3D);
@@ -16,7 +18,7 @@ void setup() {
 }
 
 void draw() {
-  background(100);
+  background(0);
   noFill();
   strokeWeight(5);
   
@@ -24,15 +26,27 @@ void draw() {
   rotateZ(zRotation);
   rotateY(yRotation);
   
+  stroke(255);
   box(250);
   
+  if(reducingSpeed){
+    resetSpeed();
+  }
   zRotation += zRotationSpeed;
   yRotation += yRotationSpeed;
+    
 }
 
 void resetSpeed(){
-  zRotationSpeed = zInitialRotationSpeed;
-  yRotationSpeed = yInitialRotationSpeed; 
+  if(zRotationSpeed > zInitialRotationSpeed)
+    zRotationSpeed -= zInitialRotationSpeed;
+  else 
+    zRotationSpeed += zInitialRotationSpeed;
+    
+  if(yRotationSpeed > yInitialRotationSpeed)
+    yRotationSpeed -= yInitialRotationSpeed;
+  else 
+    yRotationSpeed += yInitialRotationSpeed;
 }
 
 void increaseSpeed(){
@@ -46,11 +60,15 @@ void reduceSpeed(){
 }
 
 void mousePressed() {
-  if (mouseY > height/2) 
+  if (mouseY > height/2){ 
     resetSpeed();
-  else 
+    reducingSpeed = true;
+  }
+  else {
+    reducingSpeed = false;
     if(mouseX > width/2)
       increaseSpeed();
     else 
       reduceSpeed();
+  }
 }

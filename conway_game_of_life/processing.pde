@@ -1,9 +1,7 @@
 int[][] pxs;
 
 void resetPxs(){
-  for(int y = 0; y < pxs[0].length; y++)
-      for(int x = 0; x < pxs.length; x++)
-        pxs[x][y] = 0;
+  pxs = new int[width/resolution][height/resolution];
 }
 
 void myCopy(int[][] src, int[][]dest){

@@ -8,16 +8,14 @@ void setup() {
   fullScreen();
   frameRate(20);
   background(0);
-  resolution = 5;
+  resolution = 15;
   pxs = new int[width/resolution][height/resolution];
-  initializeFont();
   initializeDraw();
 }
 
 void draw(){
   drawValues();
   setValues();
-  writeInfo();
 }
 
 void reset(){
@@ -25,12 +23,13 @@ void reset(){
   resetScreen();
 }
  //<>//
-void mousePressed(){
+void touchEnded(){
   int x = round(map(mouseX, 0, width, 0, pxs.length - 1));
   int y = round(map(mouseY, 0, height, 0, pxs[0].length - 1));
   
   if(mouseX < width / 8 && mouseY < height / 8)
     reset();
-  else 
-    drawGlider(x,y);
+  else if(touches.length > 1) 
+    drawHeavySpaceship(x, y);
+  else drawGlider(x,y); 
 }
